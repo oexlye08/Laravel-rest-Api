@@ -14,15 +14,15 @@ class ArticleResource extends JsonResource
      */
     public function toArray($request)
     {
-        // return parent::toArray($request);
+        return parent::toArray($request);
 
         //modification
-        return [
-            'title' => $this->title,
-            'published' => $this->created_at->format("d F y"),
-            'subject' => $this->subject->name,
-            'user' => $this->user,
-        ];
+        // return [
+        //     'title' => $this->title,
+        //     'published' => $this->created_at->format("d F y"),
+        //     'subject' => $this->subject->name,
+        //     'user' => $this->user,
+        // ];
     }
 
     public function with($request)
