@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Article;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Article\Article;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\ArticleCollection;
+use App\Http\Resources\ArticleResource;
 
 class ArticleController extends Controller
 {
@@ -14,7 +17,10 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        $article = Article::get();
+        // $article = Article::paginate(2);
+        // return ArticleResource::collection($article);
+        return new ArticleCollection($article);
     }
 
     /**
@@ -47,9 +53,10 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Article $article)
     {
-        //
+        // return $article;
+        return new ArticleResource($article);
     }
 
     /**

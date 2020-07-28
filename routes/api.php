@@ -18,6 +18,8 @@ Route::namespace('Article')->middleware('auth:api')->group(function(){
 });
 
 
+Route::get('articles/{article}','Article\ArticleController@show');
+Route::get('articles','Article\ArticleController@index');
 Route::get('user','UserController');
 
 
