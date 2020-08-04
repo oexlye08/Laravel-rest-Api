@@ -1,0 +1,128 @@
+1. REGISTER USER
+
+Membuat Controller register dengan method invokable
+php artisan make:controller Auth\RegisterController -i
+
+Membuat Request register
+php artisan make:request Auth\RegisterRequest
+
+gunakan jwt auth
+composer require "tymon/jwt-auth {version} 1.0.0
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+php artisan jwt:secret
+
+implementasikan ke model User
+class User extends Authenticatable implements JWTSubject
+https://jwt-auth.readthedocs.io/en/develop/quick-start/
+
+ganti config auth dari web ke api
+
+    'defaults' => [
+        'guard' => 'api',           <<<<<< GANTI DI SINI
+        'passwords' => 'users',
+    ],
+
+===============================================================
+'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'api' => [
+            'driver' => 'jwt',	  <<<<<<<<<< GANTI JADI JWT
+            'provider' => 'users',
+            'hash' => false,
+        ],
+    ],
+
+2. LOGIN USER
+
+Membuat Login Controller
+php artisan make:controller Auth\LoginController -i
+
+
+3. MEMBUAT USER CONTROLLER
+php artisan make:controller UserController -i
+
+4. LOGOUT USER
+Membuat Logout Controller
+php artisan make:controller Auth\LogoutController -i
+
+5. MEMBUAT MODEL UNTUK ARTICLE
+php artisan make:model Article\Article -m (membuat migrationnya sekalian)
+
+5. MEMBUAT MODEL UNTUK SUBJECT
+php artisan make:model Article\Subject -m (membuat migrationnya sekalian)
+
+*jika model di pindah folder, maka ubah default setingan di config\auth.php menjadi
+
+ 'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+
+6. SETING RELASI UNUTK USER (setiap user mempunya banya artikel)
+    //relasi ke artikel
+     public function articles()
+     {
+         return $this->hasMany(Article::class);
+     }
+
+7.  SETING JUGA UNTUK SUBJECT (disamakan dengan User.php)
+
+8. SETING RELASI UNUTK ARTIKEL KE USER DAN SUBJECT (satu artikel mempunyai satu user dan satu subject)
+
+    public function user()
+        {
+            return $this->belongsTo(User::class);
+        }
+    
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
+
+9. MEMBUAT ARTICLE CONTROLLER BASIC API (INCLUDE FUNCTION CRUD)
+    php artisan make:controller Article\ArticleController --api
+
+10. TAMBHAKAN getRouteKeyName() PADA MODEL ARTICLE
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+11. MEMBUAT ARTICLE RESOURCES (TRANSFORMER)
+    php artisan make:resource ArticleResource
+
+12. MENAMBAHKAN EIGER LOADING AGAR TIDAK TERJADI QUERY BERULANG DI ARTICLE MODEL
+    protected $with = ['subject', 'user'];
+
+13. JIKA INGIN MENGUBAH FORMAT GENERIK JSON
+    ubah function di AppServiceProvider.php
+    public function register()
+    {
+        JsonResource::withouthWrapping();
+    }
+
+14. JIKA INGIN MENAMBAHKAN STATUS UNTUK RESPONSE JSON NYA PADA INDEX MAKA BUAT ArticleCollection
+    php artisan make:resource ArticleCollection --coll ATAU
+    php artisan make:resource ArticleCollection
+
+15. MENAMBAHKAN ArticleRequest UNTUK MENYIMPAN METHOD VALIDATE
+    php artisan make:request ArticleRequest
+    ubah authorize menjadi "true"
+    edit rules dan import ArticleRequest di tiap function di ArticleController
+
+16. ADD LARAVEL CORS
+    agar bisa api yang kita buat di akses oleh device Lain selain dari web kita
+    composer require fruitcake/laravel-cors
+    edit kernel.php
+    tambahkan ini di protected Middleware group
+        'api' => [
+            'throttle:60,1',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            //CORS
+            \Fruitcake\Cors\HandleCors::class,
+        ],
