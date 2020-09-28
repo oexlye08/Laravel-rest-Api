@@ -24,6 +24,7 @@ class LoginController extends Controller
             return response(null, 401);
         }
 
+         // return response()->json(['token' => $token]);
         return response()->json(compact('token'));
     }
 }

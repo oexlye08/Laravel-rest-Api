@@ -2,7 +2,7 @@
 
 
 
-
+ 
 Route::namespace('Auth')->group(function(){
 
     Route::post('register','RegisterController');

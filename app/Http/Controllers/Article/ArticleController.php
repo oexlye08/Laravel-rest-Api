@@ -15,7 +15,7 @@ class ArticleController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function index()
     {
         $article = Article::get();
@@ -49,7 +49,7 @@ class ArticleController extends Controller
         // return $article;
         return new ArticleResource($article);
     }
-
+ 
     /**
      * Update the specified resource in storage.
      *

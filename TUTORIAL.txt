@@ -5,6 +5,26 @@ php artisan make:controller Auth\RegisterController -i
 
 Membuat Request register
 php artisan make:request Auth\RegisterRequest
+return di buat true
+isi rulesnya dengan validate
+
+
+2. LOGIN USER
+
+
+{
+    use Notifiable;
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+   public function getJWTCustomClaims()
+    {
+        return [];
+    }
+}
+
 
 gunakan jwt auth
 composer require "tymon/jwt-auth {version} 1.0.0
@@ -13,6 +33,18 @@ php artisan jwt:secret
 
 implementasikan ke model User
 class User extends Authenticatable implements JWTSubject
+{
+    use Notifiable;
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+   public function getJWTCustomClaims()
+    {
+        return [];
+    }
+}
 https://jwt-auth.readthedocs.io/en/develop/quick-start/
 
 ganti config auth dari web ke api
@@ -36,7 +68,7 @@ ganti config auth dari web ke api
         ],
     ],
 
-2. LOGIN USER
+
 
 Membuat Login Controller
 php artisan make:controller Auth\LoginController -i
@@ -50,10 +82,10 @@ Membuat Logout Controller
 php artisan make:controller Auth\LogoutController -i
 
 5. MEMBUAT MODEL UNTUK ARTICLE
-php artisan make:model Article\Article -m (membuat migrationnya sekalian)
+php artisan make:model Models\Article\Article -m (membuat migrationnya sekalian)
 
 5. MEMBUAT MODEL UNTUK SUBJECT
-php artisan make:model Article\Subject -m (membuat migrationnya sekalian)
+php artisan make:model Models\Article\Subject -m (membuat migrationnya sekalian)
 
 *jika model di pindah folder, maka ubah default setingan di config\auth.php menjadi
 
@@ -88,10 +120,14 @@ php artisan make:model Article\Subject -m (membuat migrationnya sekalian)
     php artisan make:controller Article\ArticleController --api
 
 10. TAMBHAKAN getRouteKeyName() PADA MODEL ARTICLE
+    jika tidak ingin menggunakan slug pada url nya (localhost:8000/api/articles/the-first-article), maka get route keyname nya tidak usah di tambahkan
+    jadi url akan mengambil dari id.
     public function getRouteKeyName()
     {
         return 'slug';
     }
+
+    !!!!!!!!!!! Jika tidak ingin manambahkan getRouteKeyName pada Model, maka ubah Route nya mencjadi Route::get('articles/{article:slug}','Article\ArticleController@show');
 
 11. MEMBUAT ARTICLE RESOURCES (TRANSFORMER)
     php artisan make:resource ArticleResource
