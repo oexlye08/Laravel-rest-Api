@@ -2515,6 +2515,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/error-handler/zipball/4fd4a377f7b7ec7c3f3b40346a1411e0a83f9d40",
                 "reference": "4fd4a377f7b7ec7c3f3b40346a1411e0a83f9d40",
+
                 "shasum": ""
             },
             "require": {
@@ -2650,6 +2651,7 @@
                 }
             ],
             "time": "2021-01-27T10:36:42+00:00"
+
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -3120,6 +3122,7 @@
         {
             "name": "symfony/polyfill-ctype",
             "version": "v1.22.0",
+
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -3740,6 +3743,7 @@
         {
             "name": "symfony/polyfill-php73",
             "version": "v1.22.0",
+
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php73.git",
@@ -3816,6 +3820,7 @@
         {
             "name": "symfony/polyfill-php80",
             "version": "v1.22.0",
+
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
@@ -4442,6 +4447,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/var-dumper/zipball/72ca213014a92223a5d18651ce79ef441c12b694",
                 "reference": "72ca213014a92223a5d18651ce79ef441c12b694",
+
                 "shasum": ""
             },
             "require": {
@@ -4514,6 +4520,7 @@
                 }
             ],
             "time": "2021-01-27T10:15:41+00:00"
+
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
